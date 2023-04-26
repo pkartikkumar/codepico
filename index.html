@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CodePico</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="codemirror-5.65.12/lib/codemirror.css">
+<!-- themes -->
+<link rel="stylesheet" href="codemirror-5.65.12/theme/dracula.css">
+
+
+  
+  <script src="codemirror-5.65.12/lib/codemirror.js"></script>
+  <script src="codemirror-5.65.12/mode/xml/xml.js"></script>
+  <script src="codemirror-5.65.12/mode/javascript/javascript.js"></script>
+  <script src="codemirror-5.65.12\mode\css\css.js"></script>
+  <script src="codemirror-5.65.12/addon/selection/active-line.js"></script>
+  <script src="codemirror-5.65.12/addon/fold/xml-fold.js"></script>
+  <script src="codemirror-5.65.12/addon/edit/closebrackets.js"></script>
+  <script src="codemirror-5.65.12/addon/edit/closetag.js"></script>
+  <script src="codemirror-5.65.12/addon/edit/matchtags.js"></script>
+  <script src="codemirror-5.65.12/addon/edit/matchbrackets.js"></script>
+</head>
+<body>
+
+  <div class="top-container">
+   
+
+  </div>
+  
+<div id="editor-container"class="editors">
+  
+  <div id="html-editor"  class="editor" contenteditable="true" >
+    <p><span class="s-html">HTML</span></p>
+  </div>
+  <!--  -->
+ 
+  <div id="css-editor"  class="editor" contenteditable="true">
+    <p><span class="s-css">CSS</span></p>
+  </div>
+  
+  <div id="js-editor"  class="editor" contenteditable="true">
+    <p><span class="s-js">JS</span></p>
+  </div>
+
+ 
+</div>
+<div id="output-container" class="output-frame">
+
+<button id="fullscreen">Fullscreen</button>
+<button id="runbtn">Run</button>
+<div class="output">
+  <iframe id="show-output" ></iframe>
+</div>
+</div>
+
+
+
+  <script>
+
+    const htmlEditor = CodeMirror(document.getElementById('html-editor'), {
+      mode: 'xml',
+      theme: 'dracula',
+      lineNumbers: true,
+      autoCloseTags: true,
+      autoCloseBrackets: true,
+      matchTags: {bothTags: true},
+      extraKeys: {"Ctrl-J": "toMatchingTag"},
+    //   styleActiveLine: true,
+      matchBrackets: true
+    });
+    const cssEditor = CodeMirror(document.getElementById('css-editor'), {
+      mode: 'text/css',
+      theme: 'dracula',
+      lineNumbers: true,
+      autoCloseTags: true,
+      autoCloseBrackets: true,
+      matchTags: {bothTags: true},
+      extraKeys: {"Ctrl-J": "toMatchingTag"},
+    //   styleActiveLine: true,
+      matchBrackets: true
+    });
+    const jsEditor = CodeMirror(document.getElementById('js-editor'), {
+      mode: 'text/javascript',
+      theme: 'dracula',
+      lineNumbers: true,
+      autoCloseTags: true,
+      autoCloseBrackets: true,
+      matchTags: {bothTags: true},
+      extraKeys: {"Ctrl-J": "toMatchingTag"},
+    //   styleActiveLine: true,
+      matchBrackets: true
+    });
+
+    
+// theme Changer
+// for html
+    var htmlInput = document.getElementById("htmlSelect");
+  function selectHtmlTheme() {
+    var htmlTheme = htmlInput.options[htmlInput.selectedIndex].textContent;
+    htmlEditor.setOption("theme", htmlTheme);
+    location.hash = "#html-editor" + htmlTheme;
+  }
+  var htmlChoice = (location.hash && location.hash.slice(1)) ||
+               (document.location.search &&
+                decodeURIComponent(document.location.search.slice(1)));
+  if (htmlChoice) {
+    htmlInput.value = htmlChoice;
+   htmlEditor.setOption("theme", htmlChoice);
+  }
+  CodeMirror.on(window, "hashchange", function() {
+    var htmlTheme = location.hash.slice(1);
+    if (htmlTheme) { htmlInput.value = htmlTheme; selectHtmlTheme(); }
+  });
+
+
+  // fullscreen btn
+  const fullscreenBtn = document.getElementById('fullscreen');
+const outputFrame = document.querySelector('.output-frame');
+
+fullscreenBtn.addEventListener('click', function() {
+  if (outputFrame.requestFullscreen) {
+    outputFrame.requestFullscreen();
+  } else if (outputFrame.webkitRequestFullscreen) {
+    outputFrame.webkitRequestFullscreen();
+  } else if (outputFrame.msRequestFullscreen) {
+    outputFrame.msRequestFullscreen();
+  }
+});
+
+  </script>
+  <script src="main.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
